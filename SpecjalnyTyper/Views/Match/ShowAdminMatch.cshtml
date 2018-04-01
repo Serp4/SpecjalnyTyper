@@ -1,0 +1,105 @@
+﻿@model  IEnumerable<SpecjalnyTyper.Models.Game>
+
+@{
+    ViewBag.Title = "Create";
+}
+<font size="3" face="Comic Sans MS">
+    <h2>Mecz</h2>
+    @using (Html.BeginForm("saveMatch", "Match"))
+    {
+        @Html.TextBox("Set_Id", @Url.RequestContext.RouteData.Values["id"], htmlAttributes: new { @class = "hidden" })
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                @Html.Label("Team 1", htmlAttributes: new { @class = "control-label col-md-2" })
+                <section>
+                    @Html.DropDownList("Team1", this.ViewBag.Team as SelectList, new { id = "Team1", @class = "selectpicker", required = "required" })
+                </section>
+            </div>
+            <div class="form-group">
+                @Html.Label("Team 2", htmlAttributes: new { @class = "control-label col-md-2" })
+                <section>
+                    @Html.DropDownList("Team2", this.ViewBag.Team as SelectList, new {id="Team2", @class = "selectpicker", required = "required" })
+                </section>
+            </div>
+            <div class="form-group">
+                @Html.Label("Data rozpoczęcia meczu", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div>
+                    @Html.TextBox("Match_start_date", DateTime.Now, htmlAttributes: new { @class = "form-control", type = "datetime", required = "required" })
+                </div>
+            </div>
+            &nbsp;
+            @Html.ActionLink("Anuluj", "Index", null, new { @class = "btn btn-default" })
+            <input type="submit" value="Dodaj" class="btn btn-info" />
+            <hr />
+        </div>
+    }
+    <div>
+        <table class="table">
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Team1)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Team2)
+                </th>
+                <th>
+                    Data rozpoczęcia meczu
+                </th>
+                <th></th>
+            </tr>
+            @{int rowNo = 0;}
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @(rowNo += 1)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Team1)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Team2)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Match_start_date)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Usuń", "DeleteMatch", new { id = item.Id, setId = item.Set_Id }, new { @class = "btn btn-info" })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</font>
+
+@section scripts{
+    @Scripts.Render("~/bundles/bootstrap-select")
+    @Styles.Render("~/Content/Bootstrap-Select/css")
+    <script>
+        $(document).ready(function () {
+            // Enable Live Search.
+            $('#Team1').attr('data-live-search', true);
+            $('#Team2').attr('data-live-search', true);
+            $('.selectpicker').selectpicker(
+                {
+                    width: '40%',
+                    title: '- [Wybierz team] -',
+                    style: 'btn-default',
+                    size: 6
+                });
+            $('input[type=datetime]').datetimepicker({
+                addSliderAccess: true,
+                dateFormat: 'dd/mm/yy',
+                changeMonth: true,
+                changeYear: true,
+                selectOtherMonths: true,
+                sliderAccessArgs: { touchonly: false }
+            });
+        });
+    </script>
+}

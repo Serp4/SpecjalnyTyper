@@ -1,0 +1,45 @@
+﻿@model SpecjalnyTyper.Models.Set
+
+@{
+    ViewBag.Title = "Delete";
+}
+<font size="3" face="Comic Sans MS">
+    <h2>Czy na pewno chcesz usunąć dany zestaw</h2>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Nazwa zestawu
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            Data rozpoczęcia
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date_Start)
+        </dd>
+
+        <dt>
+            Data zakończenia
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date_End)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            @Html.ActionLink("Anuluj", "Index", null, new { @class = "btn btn-default" })
+            <input type="submit" value="Delete" class="btn btn-info" />
+        </div>
+    }
+</font>

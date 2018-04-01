@@ -1,0 +1,68 @@
+﻿@model  SpecjalnyTyper.Models.SetViewModel
+@{
+    ViewBag.Title = "Vote";
+}
+<h2>Vote</h2>
+@using (Html.BeginForm("Votes", "Match", new { SetViewData = Model }, FormMethod.Post))
+{
+    <div>
+        <table class="table">
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Team 1
+                </th>
+                <th style="text-align:center">
+                    Twój typ
+                </th>
+                <th>
+                    Team 2
+                </th>
+                <th></th>
+            </tr>
+            @{int rowNo = 0;}
+            @for (int i = 0; i < Model.listGame.Count(); i++)
+            {
+                @Html.HiddenFor(m => m.listGame[i].Id)
+                @Html.HiddenFor(m => m.listGame[i].Set_Id)
+                @Html.HiddenFor(m => m.listGame[i].Match_start_date)
+                @Html.HiddenFor(m => m.listGame[i].Team1)
+                @Html.HiddenFor(m => m.listGame[i].Team2)
+                if (DateTime.Compare(Model.listGame[i].Match_start_date, DateTime.Now) > 0)
+                {
+                    <tr>
+                        <td>
+                            @(rowNo += 1)
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(m => m.listGame[i].Team1)
+                        </td>
+                        <td align="center">
+                            <div class="btn-group" data-toggle="buttons">
+                                <label class="pdsa-radiobutton btn btn-primary">
+                                    @Html.RadioButtonFor(m => m.listGame[i].Score, 1) Team 1
+                                </label>
+                                <label class="pdsa-radiobutton btn btn-primary">
+                                    @Html.RadioButtonFor(m => m.listGame[i].Score, 2) Remis
+                                </label>
+                                <label class="pdsa-radiobutton btn btn-primary">
+                                    @Html.RadioButtonFor(m => m.listGame[i].Score, 3) Team 2
+                                </label>
+                                @Html.ValidationMessageFor(m => m.listGame[i].Score);
+                            </div>
+                        </td>
+                        <td>
+                            @Html.DisplayTextFor(m => m.listGame[i].Team2)
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+    <input type="submit" value="Zapisz" class="btn btn-info" />
+}
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<SpecjalnyTyper.Models.Set>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<font size="3" face="Comic Sans MS">
+    <p>
+        @Html.ActionLink("Stwórz nowy zestaw", "Create", null, new { @class = "btn btn-info" })
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                Nazwa zestawu
+            </th>
+            <th>
+                Data rozpoczęcia
+            </th>
+            <th>
+                Data zakończenia
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date_Start)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date_End)
+                </td>
+                <td>
+                    @Html.ActionLink("Edytuj", "Edit", new { id = item.Id }, new { @class = "btn btn-info" })
+                    @Html.ActionLink("Mecze", "ShowAdminMatch","Match", new { id = item.Id }, new { @class = "btn btn-info" })
+                    @Html.ActionLink("Usuń", "Delete", new { id = item.Id }, new { @class = "btn btn-info" })
+                </td>
+            </tr>
+        }
+    </table>
+</font>
